@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PersonController;
+use App\Http\Controllers\DepartmentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.home');
+Route::get('/',[HomeController::class,"index"])->name("home");
+
+
+route::prefix('department')->name('department.')->group(function (){
+    Route::get('/', [DepartmentController::class, 'index'])->name('index');
 });
+
+route::prefix('person')->name('person.')->group(function (){
+    Route::get('/', [PersonController::class, 'index'])->name('index');
+});
+
+
+
