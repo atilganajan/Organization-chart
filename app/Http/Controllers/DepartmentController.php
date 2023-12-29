@@ -53,10 +53,17 @@ class DepartmentController extends Controller
 
         $data = $request->only("name", "parent_department_id", "id");
 
-        Department::where("id", $data["id"])->update([
-            "name" => $data["name"],
-            "parent_department_id" => $data["parent_department_id"]
-        ]);
+       $department = Department::where("id", $data["id"])->first();
+
+        if (!$department) {
+            return response()->json(["status" => "error", "message" => "Department not found"], 404);
+        }
+
+       $department->update([
+           "name" => $data["name"],
+           "parent_department_id" => $data["parent_department_id"]
+       ]);
+
         return response()->json(["status" => "success", "message" => "Department updated successfully"]);
     }
 

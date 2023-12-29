@@ -10,15 +10,22 @@
     <thead>
     <tr>
         <th><input type="text" class="form-control filter-input shadow-sm" data-column="0" ></th>
-        <th><th >
+        <th>
             <select type="text" class="form-control filter-input shadow-sm" data-column="1" >
                 <option value="">Select department</option>
                 @foreach($departments as $department)
                     <option value="{{$department->id}}">{{$department->name}}</option>
                 @endforeach
             </select>
-        </th></th>
-        <th><input type="text" class="form-control filter-input shadow-sm" data-column="2" ></th>
+        </th>
+        <th>
+            <select type="text" class="form-control filter-input shadow-sm" data-column="2" >
+                <option value="">Select department</option>
+                @foreach($departments as $department)
+                    <option value="{{$department->id}}">{{$department->name}}</option>
+                @endforeach
+            </select>
+        </th>
         <th></th>
     </tr>
     </thead>

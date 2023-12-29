@@ -28,7 +28,7 @@
             $(document).ready(function () {
                 Person.initializeDataTable()
                 Person.initializeCreatePerson();
-               // Person.initializeUpdatePerson();
+                Person.initializeUpdatePerson();
             });
         </script>
     @endsection

@@ -10,12 +10,16 @@ class Department {
             },
             columns: [
                 {data: 'id', name: 'id'},
-                {data: 'name', name: 'name'},
+                {
+                    data: 'id', name: 'id', render: function (data, type, full, meta) {
+                        return full.name ;
+                    }
+                },
                 {
                     data: 'parent_department_id',
                     name: 'parent_department_id',
                     render: function (data, type, full, meta) {
-                       return  full.parent_department_name ?? "-";
+                        return full.parent_department_name ?? "-";
                     }
                 },
                 {
@@ -39,6 +43,7 @@ class Department {
                         $("#updateDepartmentName").val(response.department.name);
                         $("#updateDepartmentSelect").val(response.department.parent_department?.id ?? "");
                         $("#department_id").val(id);
+
                         $("#updateDepartmentModal").modal("show");
 
                     }).fail(function (error) {
@@ -112,7 +117,7 @@ class Department {
                     });
                     $("#departmentCreateErrorContainer").html(errorMessage);
                 } else {
-                    AlertMessages.showError(response.message, 2000);
+                    AlertMessages.showError(error.message, 2000);
                 }
             });
         });
@@ -147,7 +152,7 @@ class Department {
                     });
                     $("#departmentUpdateErrorContainer").html(errorMessage);
                 } else {
-                    AlertMessages.showError(response.message, 2000);
+                    AlertMessages.showError(error.message, 2000);
                 }
             });
         });

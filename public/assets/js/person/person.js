@@ -46,10 +46,14 @@ class Person {
                         type: "get",
                         url: `person/edit/${id}`,
                     }).done(function (response) {
-                        $("#updateDepartmentName").val(response.department.name);
-                        $("#updateDepartmentSelect").val(response.department.parent_department?.id ?? "");
-                        $("#department_id").val(id);
-                        $("#updateDepartmentModal").modal("show");
+                        $("#name").val(response.person.name);
+                        $("#surname").val(response.person.surname);
+                        $("#department_id").val(response.person.department_id);
+                        $("#position").val(response.person.position);
+                        $("#person_id").val(id);
+                        $("#photo").attr("src", response.person.photo);
+
+                        $("#updatePersonModal").modal("show");
 
                     }).fail(function (error) {
                         AlertMessages.showError(error.message, 2000);
@@ -125,26 +129,30 @@ class Person {
                     });
                     $("#personCreateErrorContainer").html(errorMessage);
                 } else {
-                    AlertMessages.showError(response.message, 2000);
+                    AlertMessages.showError(error.message, 2000);
                 }
             });
         });
     }
 
-    static initializeUpdateDepartment() {
+    static initializeUpdatePerson() {
 
-        $("#departmentUpdateBtn").on("click", function () {
+        $("#personUpdateBtn").on("click", function () {
 
-            const formData = $("#departmentUpdateForm").serialize();
-            const formAction = $("#departmentUpdateForm").attr("action");
-            const formMethod = $("#departmentUpdateForm").attr("method");
+            const formData = new FormData($("#personUpdateForm")[0]);
+            const formAction = $("#personUpdateForm").attr("action");
+            const formMethod = $("#personUpdateForm").attr("method");
+
+            console.log(formData);
 
             $.ajax({
                 type: formMethod,
                 url: formAction,
                 data: formData,
+                contentType: false,
+                processData: false,
             }).done(function (response) {
-                $("#updateDepartmentModal").modal("hide");
+                $("#updatePersonModal").modal("hide");
                 AlertMessages.showSuccess(response.message, 2000);
 
                 setTimeout(function () {
@@ -158,9 +166,9 @@ class Person {
                     $.each(errors, (key, value) => {
                         errorMessage += `<li class="text-danger" >${value[0]}</li>`;
                     });
-                    $("#departmentUpdateErrorContainer").html(errorMessage);
+                    $("#personUpdateErrorContainer").html(errorMessage);
                 } else {
-                    AlertMessages.showError(response.message, 2000);
+                    AlertMessages.showError(error.message, 2000);
                 }
             });
         });
