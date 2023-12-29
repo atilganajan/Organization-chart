@@ -1,4 +1,4 @@
-class Department {
+class Person {
     static initializeDataTable() {
 
         const dataTable = $('#departmentDataTable').DataTable({
@@ -30,10 +30,10 @@ class Department {
                         type: "get",
                         url: `department/edit/${id}`,
                     }).done(function (response) {
-                     $("#updateDepartmentName").val(response.department.name);
-                     $("#updateDepartmentSelect").val(response.department.parent_department?.id ?? "");
-                     $("#department_id").val(id);
-                     $("#updateDepartmentModal").modal("show");
+                        $("#updateDepartmentName").val(response.department.name);
+                        $("#updateDepartmentSelect").val(response.department.parent_department?.id ?? "");
+                        $("#department_id").val(id);
+                        $("#updateDepartmentModal").modal("show");
 
                     }).fail(function (error) {
                         AlertMessages.showError(error.message, 2000);
@@ -78,19 +78,19 @@ class Department {
 
     }
 
-    static initializeCreateDepartment() {
-        $("#departmentCreateBtn").on("click", function () {
+    static initializeCreatePerson() {
+        $("#personCreateBtn").on("click", function () {
 
-            const formData = $("#departmentCreateForm").serialize();
-            const formAction = $("#departmentCreateForm").attr("action");
-            const formMethod = $("#departmentCreateForm").attr("method");
+            const formData = $("#personCreateForm").serialize();
+            const formAction = $("#personCreateForm").attr("action");
+            const formMethod = $("#personCreateForm").attr("method");
 
             $.ajax({
                 type: formMethod,
                 url: formAction,
                 data: formData,
             }).done(function (response) {
-                $("#createDepartmentModal").modal("hide");
+                $("#createPersonModal").modal("hide");
                 AlertMessages.showSuccess(response.message, 2000);
 
                 setTimeout(function () {
@@ -104,7 +104,7 @@ class Department {
                     $.each(errors, (key, value) => {
                         errorMessage += `<li class="text-danger" >${value[0]}</li>`;
                     });
-                    $("#departmentCreateErrorContainer").html(errorMessage);
+                    $("#personCreateErrorContainer").html(errorMessage);
                 } else {
                     AlertMessages.showError(response.message, 2000);
                 }

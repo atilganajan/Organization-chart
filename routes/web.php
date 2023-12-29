@@ -30,6 +30,11 @@ route::prefix('department')->name('department.')->group(function (){
 
 route::prefix('person')->name('person.')->group(function (){
     Route::get('/', [PersonController::class, 'index'])->name('index');
+    Route::get('/list', [PersonController::class, 'list'])->name('list');
+    Route::post('/create', [PersonController::class, 'create'])->name('create');
+    Route::get('/edit/{id}', [PersonController::class, 'edit'])->name('edit');
+    Route::put('/update', [PersonController::class, 'update'])->name('update');
+    Route::delete('/delete', [PersonController::class, 'delete'])->name('delete');
 });
 
 

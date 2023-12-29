@@ -1,6 +1,4 @@
 <x-app-layout>
-
-
     <div class="container mt-4">
 
         <div class=" mt-3 mx-3 d-flex justify-content-between">
@@ -29,8 +27,8 @@
         <script src="{{asset("assets/js/department/department.js")}}"></script>
         <script>
             $(document).ready(function () {
-               Department.initializeDataTable("{{route("department.list")}}")
-               Department.initializeCreateDepartment();
+                Department.initializeDataTable()
+                Department.initializeCreateDepartment();
                 Department.initializeUpdateDepartment();
             });
         </script>
