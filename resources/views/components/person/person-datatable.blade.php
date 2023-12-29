@@ -1,4 +1,4 @@
-<table id="personDataTable" class="table table-striped cell-border w-100">
+<table id="personDataTable" class="table table-striped cell-border w-100" style="text-align: center;vertical-align: middle;">
     <thead>
     <tr>
         <th>ID</th>
