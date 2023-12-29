@@ -12,19 +12,19 @@
     </thead>
     <thead>
     <tr>
-        <th><input type="text" class="form-control filter-input shadow-sm" data-column="0"></th>
+        <th><input type="text" class="form-control filter-input shadow-sm" placeholder="Search ID..." data-column="0"></th>
         <th></th>
-        <th><input type="text" class="form-control filter-input shadow-sm" data-column="2" ></th>
-        <th><input type="text" class="form-control filter-input shadow-sm" data-column="3"></th>
+        <th><input type="text" class="form-control filter-input shadow-sm" placeholder="Search Name..." data-column="2" ></th>
+        <th><input type="text" class="form-control filter-input shadow-sm" placeholder="Search Surname..." data-column="3"></th>
         <th >
             <select type="text" class="form-control filter-input shadow-sm" data-column="4" >
-                <option value="">Select department</option>
+                <option value="">Search Department...</option>
                 @foreach($departments as $department)
                     <option value="{{$department->id}}">{{$department->name}}</option>
                 @endforeach
             </select>
         </th>
-        <th><input type="text" class="form-control filter-input shadow-sm" data-column="5"></th>
+        <th><input type="text" placeholder="Search Surname..." class="form-control filter-input shadow-sm" data-column="5"></th>
         <th></th>
     </tr>
     </thead>
