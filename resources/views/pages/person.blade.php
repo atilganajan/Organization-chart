@@ -1,6 +1,5 @@
 <x-app-layout>
     <div class="container mt-4">
-
         <div class=" mt-3 mx-3 d-flex justify-content-between">
             <a href="{{route("home")}}" class="btn btn-danger" >
                 &larr; Back to Home
@@ -29,7 +28,7 @@
             $(document).ready(function () {
                 Person.initializeDataTable()
                 Person.initializeCreatePerson();
-                Person.initializeUpdatePerson();
+               // Person.initializeUpdatePerson();
             });
         </script>
     @endsection

@@ -1,34 +1,45 @@
 class Person {
     static initializeDataTable() {
 
-        const dataTable = $('#departmentDataTable').DataTable({
+        const dataTable = $('#personDataTable').DataTable({
             serverSide: true,
             order: [],
             ajax: {
-                url: "/department/list",
+                url: "/person/list",
                 type: 'GET',
             },
             columns: [
                 {data: 'id', name: 'id'},
+                {
+                    data: 'photo', name: 'photo', render: function (data, type, full, meta) {
+                        if (!data) {
+
+                            return `<i class="fas fa-user-circle" style="font-size: 50px;"></i>`;
+                        }
+                        return `<img style="width: 50px" src="${data}" >`;
+                    }
+                },
                 {data: 'name', name: 'name'},
-                {data: 'parent_department_name', name: 'parentDepartment.name', defaultContent: '-'},
+                {data: 'surname', name: 'surname'},
+                {data: 'department_name', name: 'department_name'},
+                {data: 'position', name: 'position'},
                 {
                     data: 'id', name: 'id',
                     render: function (data, type, full, meta) {
                         return `
-                <button class="btn btn-sm bg-primary text-white me-2 departmentOpenUpdateModalBtn" data-id="${data}"><i class="fa-solid fa-square-pen"></i></button>
-                <button class="btn btn-sm bg-danger text-white dapertmentDeleteBtn" data-id="${data}"><i class="fa-solid fa-trash"></i></button>`;
+                <button class="btn btn-sm bg-primary text-white me-2 personOpenUpdateModalBtn" data-id="${data}"><i class="fa-solid fa-square-pen"></i></button>
+                <button class="btn btn-sm bg-danger text-white personDeleteBtn" data-id="${data}"><i class="fa-solid fa-trash"></i></button>`;
                     },
                 },
             ],
 
             initComplete: function () {
-                $(".departmentOpenUpdateModalBtn").on("click", function () {
+                $(".personOpenUpdateModalBtn").on("click", function () {
                     const id = $(this).data("id");
 
                     $.ajax({
                         type: "get",
-                        url: `department/edit/${id}`,
+                        url: `person/edit/${id}`,
                     }).done(function (response) {
                         $("#updateDepartmentName").val(response.department.name);
                         $("#updateDepartmentSelect").val(response.department.parent_department?.id ?? "");
@@ -41,16 +52,16 @@ class Person {
 
                 });
 
-                $(".dapertmentDeleteBtn").on("click", function () {
+                $(".personDeleteBtn").on("click", function () {
 
                     const id = $(this).data("id");
 
-                    AlertConfirmModals.confirmModal("Are you sure?", "Do you confirm that the departments and persons affiliated with it will also be deleted? <br><br> You won't be able to revert this!", "warning")
+                    AlertConfirmModals.confirmModal("Are you sure?", " You won't be able to revert this!", "warning")
                         .then((isConfirmed) => {
                             if (isConfirmed) {
                                 $.ajax({
                                     type: 'DELETE',
-                                    url: "department/delete",
+                                    url: "person/delete",
                                     data: {
                                         id: id,
                                     },

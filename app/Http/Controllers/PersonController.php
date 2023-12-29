@@ -7,6 +7,7 @@ use App\Http\Requests\CreatePersonRequest;
 use App\Models\Person;
 use App\Traits\FileTrait;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class PersonController extends Controller
 {
@@ -16,6 +17,15 @@ class PersonController extends Controller
         $dapertments = Department::get();
 
         return view("pages.person")->with(["departments"=>$dapertments]);
+    }
+
+    public function list(){
+
+        $query = Person::leftJoin("departments", "persons.department_id", "=", "departments.id")
+            ->select("persons.*", "departments.name as department_name");
+
+
+        return DataTables::of($query->get())->toJson();
     }
 
     public function create(CreatePersonRequest $request){
