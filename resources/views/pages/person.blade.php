@@ -15,7 +15,7 @@
             <h2 class="text-center">Persons</h2>
         </div>
 
-        <x-person.person-datatable/>
+        <x-person.person-datatable :departments="$departments" />
 
     </div>
 

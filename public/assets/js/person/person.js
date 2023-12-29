@@ -21,7 +21,12 @@ class Person {
                 },
                 {data: 'name', name: 'name'},
                 {data: 'surname', name: 'surname'},
-                {data: 'department_name', name: 'department_name'},
+                {
+                    data: 'department_id', name: 'department_id',
+                    render: function (data, type, full, meta) {
+                       return full.department_name;
+                    }
+                },
                 {data: 'position', name: 'position'},
                 {
                     data: 'id', name: 'id',
@@ -82,8 +87,9 @@ class Person {
 
         });
 
-        $('.filter-input').on('keyup', function () {
+        $('.filter-input').on('keyup change', function () {
             const columnIndex = $(this).data('column');
+            console.log(columnIndex);
             dataTable.column(columnIndex).search($(this).val()).draw();
         });
 

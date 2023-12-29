@@ -11,7 +11,13 @@ class Department {
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'name', name: 'name'},
-                {data: 'parent_department_name', name: 'parentDepartment.name', defaultContent: '-'},
+                {
+                    data: 'parent_department_id',
+                    name: 'parent_department_id',
+                    render: function (data, type, full, meta) {
+                       return  full.parent_department_name ?? "-";
+                    }
+                },
                 {
                     data: 'id', name: 'id',
                     render: function (data, type, full, meta) {
@@ -30,10 +36,10 @@ class Department {
                         type: "get",
                         url: `department/edit/${id}`,
                     }).done(function (response) {
-                     $("#updateDepartmentName").val(response.department.name);
-                     $("#updateDepartmentSelect").val(response.department.parent_department?.id ?? "");
-                     $("#department_id").val(id);
-                     $("#updateDepartmentModal").modal("show");
+                        $("#updateDepartmentName").val(response.department.name);
+                        $("#updateDepartmentSelect").val(response.department.parent_department?.id ?? "");
+                        $("#department_id").val(id);
+                        $("#updateDepartmentModal").modal("show");
 
                     }).fail(function (error) {
                         AlertMessages.showError(error.message, 2000);
@@ -71,10 +77,10 @@ class Department {
 
         });
 
-        $('.filter-input').on('keyup', function () {
-            const columnIndex = $(this).data('column');
-            dataTable.column(columnIndex).search($(this).val()).draw();
+        $('.filter-input').on('keyup change', function () {
+            dataTable.columns($(this).parent().index()).search(this.value).draw();
         });
+
 
     }
 

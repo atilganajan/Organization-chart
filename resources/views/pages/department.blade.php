@@ -16,7 +16,7 @@
             <h2 class="text-center">Departments</h2>
         </div>
 
-        <x-department.department-datatable/>
+        <x-department.department-datatable :departments="$departments" />
 
     </div>
 
