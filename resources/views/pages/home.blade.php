@@ -7,13 +7,20 @@
             <ul class="list-group">
                 @foreach ($departments->where('parent_department_id', null) as $department)
                     <li class="list-group-item">{{ $department->name }}
+                        @if($department->persons->isNotEmpty())
+                            <ul class="list-group">
+                                @foreach($department->persons as $person)
+                                    <li class="list-group-item">{{$person->position}} ({{ $person->name }} {{ $person->surname }})</li>
+                                @endforeach
+                            </ul>
+                        @endif
                         @if($department->subDepartments->isNotEmpty())
                             <ul class="list-group">
 
                                     @foreach ($department->subDepartments as $subDepartment)
                                         <li class="list-group-item">{{ $subDepartment->name }}
                                             @if($subDepartment->subDepartments->isNotEmpty())
-                                                @include('partials.subdepartments', ['subDepartments' => $subDepartment->subDepartments])
+                                                <x-home.chart-item :subDepartments="$subDepartment->subDepartments" />
                                             @endif
                                             @if($subDepartment->persons->isNotEmpty())
                                                 <ul class="list-group">
@@ -28,13 +35,7 @@
 
                             </ul>
                         @endif
-                        @if($department->persons->isNotEmpty())
-                            <ul class="list-group">
-                                @foreach($department->persons as $person)
-                                    <li class="list-group-item">{{$person->position}} ({{ $person->name }} {{ $person->surname }})</li>
-                                @endforeach
-                            </ul>
-                        @endif
+
                     </li>
                 @endforeach
             </ul>
