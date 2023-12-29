@@ -25,7 +25,7 @@ route::prefix('department')->name('department.')->group(function (){
     Route::post('/create', [DepartmentController::class, 'create'])->name('create');
     Route::get('/edit/{id}', [DepartmentController::class, 'edit'])->name('edit');
     Route::put('/update', [DepartmentController::class, 'update'])->name('update');
-
+    Route::delete('/delete', [DepartmentController::class, 'delete'])->name('delete');
 });
 
 route::prefix('person')->name('person.')->group(function (){

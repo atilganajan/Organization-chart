@@ -40,13 +40,34 @@ class Department {
                      $("#updateDepartmentModal").modal("show");
 
                     }).fail(function (error) {
-                        AlertMessages.showError(response.message, 2000);
+                        AlertMessages.showError(error.message, 2000);
                     });
 
                 });
 
                 $(".dapertmentDeleteBtn").on("click", function () {
 
+                    const id = $(this).data("id");
+
+                    AlertConfirmModals.confirmModal("Are you sure?", "Do you confirm that the departments and persons affiliated with it will also be deleted? <br><br> You won't be able to revert this!", "warning")
+                        .then((isConfirmed) => {
+                            if (isConfirmed) {
+                                $.ajax({
+                                    type: 'DELETE',
+                                    url: "department/delete",
+                                    data: {
+                                        id: id,
+                                    },
+                                }).done(function (response) {
+                                    AlertMessages.showSuccess(response.message, 2000);
+                                    setTimeout(function () {
+                                        window.location.reload();
+                                    }, 2000);
+                                }).fail(function (error) {
+                                    AlertMessages.showError(error.message, 2000);
+                                });
+                            }
+                        });
                 });
 
 

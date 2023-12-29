@@ -51,8 +51,14 @@ class DepartmentController extends Controller
             "name"=>$data["name"],
             "parent_department_id"=>$data["parent_department_id"]
         ]);
+        return response()->json(["status"=>"success","message"=>"Department updated successfully"]);
+    }
 
-        return response()->json(["status"=>"success","message"=>"Department created successfully"]);
+    public function delete(Request $request){
+        $id = $request->only("id");
+        Department::where("id",$id)->delete();
+
+        return response()->json(["status"=>"success","message"=>"Department deleted successfully"]);
     }
 
 
