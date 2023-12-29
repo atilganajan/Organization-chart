@@ -1,52 +1,42 @@
 <x-app-layout>
         <div class="container mt-4">
             <div class="d-flex justify-content-center w-100">
-                <h2 class="text-center">Organizasyon Şeması</h2>
+                <h2 class="text-center">Organization Chart</h2>
             </div>
 
             <ul class="list-group">
-                <li class="list-group-item">Pazarlama Departmanı
-                    <ul class="list-group">
-                        <li class="list-group-item">Pazarlama Müdürü (İsim Soyisim)</li>
-                        <li class="list-group-item">Pazarlama Çalışanı (İsim Soyisim)</li>
-                    </ul>
-                </li>
-                <li class="list-group-item">Finansman Departmanı
-                    <ul class="list-group">
-                        <li class="list-group-item">Muhasebe Departmanı
+                @foreach ($departments->where('parent_department_id', null) as $department)
+                    <li class="list-group-item">{{ $department->name }}
+                        @if($department->subDepartments->isNotEmpty())
                             <ul class="list-group">
-                                <li class="list-group-item">Muhasebe Şefi (İsim Soyisim)</li>
-                                <li class="list-group-item">Muhasebe Çalışanı (İsim Soyisim)</li>
+
+                                    @foreach ($department->subDepartments as $subDepartment)
+                                        <li class="list-group-item">{{ $subDepartment->name }}
+                                            @if($subDepartment->subDepartments->isNotEmpty())
+                                                @include('partials.subdepartments', ['subDepartments' => $subDepartment->subDepartments])
+                                            @endif
+                                            @if($subDepartment->persons->isNotEmpty())
+                                                <ul class="list-group">
+                                                    @foreach($subDepartment->persons as $person)
+                                                        <li class="list-group-item">{{$person->position}} ({{ $person->name }} {{ $person->surname }})</li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </li>
+                                    @endforeach
+
+
                             </ul>
-                        </li>
-                        <li class="list-group-item">Bütçeleme Departmanı
+                        @endif
+                        @if($department->persons->isNotEmpty())
                             <ul class="list-group">
-                                <li class="list-group-item">Bütçeleme Şefi (İsim Soyisim)</li>
-                                <li class="list-group-item">Bütçeleme Çalışanı (İsim Soyisim)</li>
+                                @foreach($department->persons as $person)
+                                    <li class="list-group-item">{{$person->position}} ({{ $person->name }} {{ $person->surname }})</li>
+                                @endforeach
                             </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="list-group-item">Personel Departmanı
-                    <ul class="list-group">
-                        <li class="list-group-item">Özlük İşleri Departmanı
-                            <ul class="list-group">
-                                <li class="list-group-item">Özlük İşleri Çalışanı (İsim Soyisim)</li>
-                            </ul>
-                        </li>
-                        <li class="list-group-item">İnsan Kaynakları Deparmanı
-                            <ul class="list-group">
-                                <li class="list-group-item">İnsan Kaynakları Müdürü (İsim Soyisim)</li>
-                                <li class="list-group-item">İnsan Kaynakları Çalışanı (İsim Soyisim)</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="list-group-item">Ar-Ge Departmanı
-                    <ul class="list-group">
-                        <li class="list-group-item">Ar-Ge Çalışanı (İsim Soyisim)</li>
-                    </ul>
-                </li>
+                        @endif
+                    </li>
+                @endforeach
             </ul>
         </div>
 

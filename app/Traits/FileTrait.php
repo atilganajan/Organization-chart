@@ -29,6 +29,10 @@ trait FileTrait
             File::delete($oldFile);
         }
 
+        if(!$file){
+            return null;
+        }
+
         $filename = time() . '_' . rand(1, 1000) . '_' . $file->getClientOriginalName();
 
         $file->move($imagesFolder, $filename);

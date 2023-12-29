@@ -37,7 +37,13 @@
                         <label for="position" class="form-label">Position</label>
                         <input type="text" maxlength="100" class="form-control shadow-sm" id="position" name="position">
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-4">
+                        <label for="showPhoto" class="form-label">Change Image</label>
+
+                            <input type="checkbox" id="showPhoto"  name="change_photo" class="shadow-sm" onchange="togglePhotoVisibility()">
+
+                    </div>
+                    <div class="mb-3 parentPhotoContainer" style="display: none">
                         <label for="photo" class="form-label">Photo</label>
                         <input type="file" maxlength="100" class="form-control shadow-sm" name="photo">
                     </div>
@@ -50,5 +56,17 @@
         </div>
     </div>
 </div>
+<script>
+    function togglePhotoVisibility() {
+        const showPhotoCheckbox = $("#showPhoto");
+        const photoInputContainer = $(".parentPhotoContainer");
 
+        if (showPhotoCheckbox.prop("checked")) {
+            photoInputContainer.show();
+        } else {
+            photoInputContainer.hide();
+        }
+    }
+
+</script>
 

@@ -63,22 +63,24 @@ class PersonController extends Controller
 
     public function update(UpdatePersonRequest $request){
 
-        $data = $request->only("name","surname","photo","position","department_id","id");
+        $data = $request->only("name","surname","photo","position","department_id","id","change_photo");
 
         $person = Person::where("id",$data["id"])->first();
+
+        $photo = $person->photo;
 
         if(!$person){
             return response()->json(["status" => "error", "message" => "Person not found"], 404);
         }
 
-        if(isset($data["photo"])){
-            $data["photo"] = $this->updateFile($data["photo"],$person->photo);
+        if(isset($data["change_photo"])){
+            $photo = $this->updateFile($data["photo"] ?? null,$person->photo);
         }
 
         $person->update([
             "name"=> $data["name"],
             "surname"=> $data["surname"],
-            "photo"=> $data["photo"] ?? $person->photo,
+            "photo"=> $photo,
             "position"=> $data["position"],
             "department_id"=> $data["department_id"]
         ]);
