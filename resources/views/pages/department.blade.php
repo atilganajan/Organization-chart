@@ -23,6 +23,7 @@
     </div>
 
     <x-department.create-department-modal :departments="$departments" />
+    <x-department.update-department-modal :departments="$departments" />
 
     @section("script")
         <script src="{{asset("assets/js/department/department.js")}}"></script>
@@ -30,6 +31,7 @@
             $(document).ready(function () {
                Department.initializeDataTable("{{route("department.list")}}")
                Department.initializeCreateDepartment();
+                Department.initializeUpdateDepartment();
             });
         </script>
     @endsection

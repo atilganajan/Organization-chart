@@ -1,5 +1,6 @@
 class Department {
     static initializeDataTable(url) {
+
         const dataTable = $('#departmentDataTable').DataTable({
             serverSide: true,
             order: [],
@@ -14,23 +15,50 @@ class Department {
                 {
                     data: 'id', name: 'id',
                     render: function (data, type, full, meta) {
-                        data = `
-                <button class="btn btn-sm bg-primary text-white me-2 dapertmentOpenUpdateModalBtn " data-id="${data.id}" ><i class="fa-solid fa-square-pen"></i></button>
-                <button class="btn btn-sm bg-danger text-white dapertmentDeleteBtn " data-id="${data.id}" ><i class="fa-solid fa-trash"></i></button>`
+                        return `
+                <button class="btn btn-sm bg-primary text-white me-2 departmentOpenUpdateModalBtn" data-id="${data}"><i class="fa-solid fa-square-pen"></i></button>
+                <button class="btn btn-sm bg-danger text-white dapertmentDeleteBtn" data-id="${data}"><i class="fa-solid fa-trash"></i></button>`;
 
-                        return data;
 
                     },
 
 
                 },
             ],
+
+            initComplete: function () {
+                $(".departmentOpenUpdateModalBtn").on("click", function () {
+                    const id = $(this).data("id");
+
+                    $.ajax({
+                        type: "get",
+                        url: `department/edit/${id}`,
+                    }).done(function (response) {
+                     $("#updateDepartmentName").val(response.department.name);
+                     $("#updateDepartmentSelect").val(response.department.parent_department?.id ?? "");
+                     $("#department_id").val(id);
+                     $("#updateDepartmentModal").modal("show");
+
+                    }).fail(function (error) {
+                        AlertMessages.showError(response.message, 2000);
+                    });
+
+                });
+
+                $(".dapertmentDeleteBtn").on("click", function () {
+
+                });
+
+
+            },
+
         });
 
         $('.filter-input').on('keyup', function () {
             const columnIndex = $(this).data('column');
             dataTable.column(columnIndex).search($(this).val()).draw();
         });
+
     }
 
     static initializeCreateDepartment() {
@@ -59,12 +87,48 @@ class Department {
                     $.each(errors, (key, value) => {
                         errorMessage += `<li class="text-danger" >${value[0]}</li>`;
                     });
-                    $("#departmentErrorContainer").html(errorMessage);
+                    $("#departmentCreateErrorContainer").html(errorMessage);
                 } else {
                     AlertMessages.showError(response.message, 2000);
                 }
             });
         });
+    }
+
+    static initializeUpdateDepartment() {
+
+        $("#departmentUpdateBtn").on("click", function () {
+
+            const formData = $("#departmentUpdateForm").serialize();
+            const formAction = $("#departmentUpdateForm").attr("action");
+            const formMethod = $("#departmentUpdateForm").attr("method");
+
+            $.ajax({
+                type: formMethod,
+                url: formAction,
+                data: formData,
+            }).done(function (response) {
+                $("#updateDepartmentModal").modal("hide");
+                AlertMessages.showSuccess(response.message, 2000);
+
+                setTimeout(function () {
+                    location.reload();
+                }, 2000)
+
+            }).fail(function (error) {
+                if (error.status === 422) {
+                    const errors = error.responseJSON.errors;
+                    let errorMessage = '';
+                    $.each(errors, (key, value) => {
+                        errorMessage += `<li class="text-danger" >${value[0]}</li>`;
+                    });
+                    $("#departmentUpdateErrorContainer").html(errorMessage);
+                } else {
+                    AlertMessages.showError(response.message, 2000);
+                }
+            });
+        });
+
     }
 
 }

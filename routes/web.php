@@ -23,6 +23,8 @@ route::prefix('department')->name('department.')->group(function (){
     Route::get('/', [DepartmentController::class, 'index'])->name('index');
     Route::get('/list', [DepartmentController::class, 'list'])->name('list');
     Route::post('/create', [DepartmentController::class, 'create'])->name('create');
+    Route::get('/edit/{id}', [DepartmentController::class, 'edit'])->name('edit');
+    Route::put('/update', [DepartmentController::class, 'update'])->name('update');
 
 });
 
