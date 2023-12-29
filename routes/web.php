@@ -21,7 +21,9 @@ Route::get('/',[HomeController::class,"index"])->name("home");
 
 route::prefix('department')->name('department.')->group(function (){
     Route::get('/', [DepartmentController::class, 'index'])->name('index');
+    Route::get('/list', [DepartmentController::class, 'list'])->name('list');
     Route::post('/create', [DepartmentController::class, 'create'])->name('create');
+
 });
 
 route::prefix('person')->name('person.')->group(function (){

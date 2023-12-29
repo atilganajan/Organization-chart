@@ -16,7 +16,10 @@
                     <div class="mb-3">
                         <label for="parent_department_id" class="form-label">Parent Department</label>
                         <select class="form-control shadow-sm" name="parent_department_id">
-                            <option value="">Parent Department</option>
+                            <option value="">Select department</option>
+                            @foreach($departments as $department)
+                                <option value="{{$department->id}}">{{$department->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
@@ -33,41 +36,3 @@
     </div>
 </div>
 
-@section("script")
-    <script>
-
-        $(document).ready(function () {
-            $("#departmentCreateBtn").on("click", function () {
-
-                const formData = $("#departmentCreateForm").serialize();
-                const formAction = $("#departmentCreateForm").attr("action");
-                const formMethod = $("#departmentCreateForm").attr("method");
-
-                $.ajax({
-                    type: formMethod,
-                    url: formAction,
-                    data: formData,
-                }).done(function (response) {
-                    $("#createDepartmentModal").modal("hide");
-                    AlertMessages.showSuccess(response.message,2000);
-
-                }).fail(function (error) {
-                    if (error.status === 422) {
-                        const errors = error.responseJSON.errors;
-                        let errorMessage = '';
-                        $.each(errors, (key, value) => {
-                            errorMessage += `<li class="text-danger" >${value[0]}</li>`;
-                        });
-                        $("#departmentErrorContainer").html(errorMessage);
-                    } else {
-                        AlertMessages.showError(response.message,2000);
-                    }
-                });
-            });
-
-
-
-        });
-
-    </script>
-@endsection

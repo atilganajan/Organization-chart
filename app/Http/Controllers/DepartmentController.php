@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Yajra\DataTables\DataTables;
 use App\Http\Requests\CreateDepartmentRequest;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -9,7 +10,17 @@ use Illuminate\Http\Request;
 class DepartmentController extends Controller
 {
     public function index(){
-        return view("pages.department");
+        $dapertments = Department::get();
+
+        return view("pages.department")->with(["departments"=>$dapertments]);
+    }
+
+    public function list(){
+        $query = Department::leftJoin('departments as parent', 'departments.parent_department_id', '=', 'parent.id')
+            ->select('departments.*', 'parent.name as parent_department_name');
+
+
+        return DataTables::of($query->get())->toJson();
     }
 
     public function create(CreateDepartmentRequest $request){
@@ -20,5 +31,7 @@ class DepartmentController extends Controller
 
         return response()->json(["status"=>"success","message"=>"Department created successfully"]);
     }
+
+
 
 }
