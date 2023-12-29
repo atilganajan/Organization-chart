@@ -81,7 +81,7 @@ class Person {
     static initializeCreatePerson() {
         $("#personCreateBtn").on("click", function () {
 
-            const formData = $("#personCreateForm").serialize();
+            const formData = new FormData($("#personCreateForm")[0]);
             const formAction = $("#personCreateForm").attr("action");
             const formMethod = $("#personCreateForm").attr("method");
 
@@ -89,6 +89,8 @@ class Person {
                 type: formMethod,
                 url: formAction,
                 data: formData,
+                contentType: false,
+                processData: false,
             }).done(function (response) {
                 $("#createPersonModal").modal("hide");
                 AlertMessages.showSuccess(response.message, 2000);
